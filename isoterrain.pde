@@ -1,10 +1,3 @@
-import ddf.minim.spi.*;
-import ddf.minim.signals.*;
-import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.ugens.*;
-import ddf.minim.effects.*;
-
 
 float isoThetaX = -atan(sin(radians(45)));
 float isoThetaY = radians(45);
@@ -16,9 +9,6 @@ float time = random(100);
 float terrainXOffset = random(100);
 float terrainYOffset = random(100);
 float waterOffset = 0.0;
-
-Minim minim;
-AudioPlayer player;
 
 Terrain terrain;
 Terrain water;
@@ -50,13 +40,6 @@ void setup() {
     snow.tint = color(220);
     snow.enableBottomCutoff = true;
     snow.bottomCutoff = 215.0;
-    
-    // sounds
-    minim = new Minim(this);
-    player = minim.loadFile( "ocean.wav", 512);
-    //player.play();
-    //player.loop();
-    
     
 }
 
@@ -98,14 +81,6 @@ void draw() {
 
 boolean sketchFullScreen() {
   return true;
-}
-
-void stop() {
-  /*if (player != null)
-  {
-    player.close();
-  }
-  minim.stop();*/
 }
 
 void keyPressed() {
