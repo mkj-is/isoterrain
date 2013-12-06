@@ -1,6 +1,6 @@
-The MIT License (MIT)
+# The MIT License (MIT)
 
-Copyright (c) 2013 Matěj Kašpar Jirásek
+*Copyright (c) 2013 Matěj Kašpar Jirásek*
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
