@@ -1,20 +1,61 @@
+/**
+ *
+ * @file isoterrain.pda
+ *
+ * @author Matěj Kašpar Jirásek <matej.jirasek@gmail.com>
+ * @date 2013-12-06
+ *
+ * @link http://mkj.is
+ * @link https://is.muni.cz/predmet/fi/podzim2013/PV097?lang=en
+ * @link http://dribbble.com/shots/767412-Island-Map
+ *
+ * Main processing file for Isoterrain project. This project was made as semestral work in PV097 course at Faculty of Informatics, Masaryk University, Brno. It was inspired by Timothy 
+ */
 
+/**
+ * Angle of rotation around X axis
+ */
 float isoThetaX = -atan(sin(radians(45)));
+/**
+ * Angle of rotation around Y axis
+ */
 float isoThetaY = radians(45);
-
+/**
+ * Size of the map
+ */
 float size = 600.0;
-
+/**
+ * Time seed
+ */
 float time = random(100);
-
+/**
+ * X map position
+ */
 float terrainXOffset = random(100);
+/**
+ * Y map position
+ */ 
 float terrainYOffset = random(100);
-float waterOffset = 0.0;
-
+/**
+ Green hilly terrain layer
+ */
 Terrain terrain;
+/**
+ * Moving water layer
+ */
 Terrain water;
+/**
+ * Brown mountain layer
+ */
 Terrain mountains;
+/**
+ * Snowy mountain layer
+ */
 Terrain snow;
 
+/**
+ * Setup processing method. Sets up terrain layers and fullscreen window on application start.
+ */
 void setup() {
     size(displayWidth, displayHeight, P3D);
     smooth();
@@ -43,10 +84,13 @@ void setup() {
     
 }
 
+/**
+ * Draws one frame.
+ */
 void draw() {
-    time += 0.005;
+    time += 0.01;
   
-    water.initWithPerlin(-terrainXOffset + waterOffset, -terrainYOffset + waterOffset,  0.5);
+    water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5,  0.5);
   
     background(#170124);
     translate(width / 2, height / 2);
@@ -55,19 +99,7 @@ void draw() {
     rotateX(isoThetaX);
     rotateY(isoThetaY);
     
-    // lights
-    ambientLight(32 - cos(time) * 16, 32 - cos(time) * 16, 32 - cos(time) * 16);
-    directionalLight(182, 182, 182, 0, sin(time), cos(time));
-    lightFalloff(1, 0, 0);
-    lightSpecular(0, 0, 0);
-    
-    // axises
-    /*stroke(255, 0, 0);
-    line(0, 0, 0, 100, 0, 0);
-    stroke(0, 255, 0);
-    line(0, 0, 0, 0, 100, 0);
-    stroke(0, 0, 255);
-    line(0, 0, 0, 0, 0, 100);*/
+    setupLights();
 
     float h = 100;
 
@@ -75,14 +107,29 @@ void draw() {
     snow.drawSurface(size, 500);
     terrain.drawSurface(size, 150);
     water.drawSurface(size, 20);
-    
-    waterOffset += 0.05;
 }
 
+/**
+ * Setups light based on global time.
+ */
+void setupLights()
+{
+    ambientLight(32 - cos(time) * 16, 32 - cos(time) * 16, 32 - cos(time) * 16);
+    directionalLight(182, 182, 182, 0, sin(time), cos(time));
+    lightFalloff(1, 0, 0);
+    lightSpecular(0, 0, 0);
+}
+
+/**
+ * Makes the sketch fullscreen by default.
+ */
 boolean sketchFullScreen() {
   return true;
 }
 
+/**
+ * Maps key presses to various events. Moves the map, exports file and so on.
+ */
 void keyPressed() {
     if (keyCode == UP) {
       terrainXOffset -= 0.5;
