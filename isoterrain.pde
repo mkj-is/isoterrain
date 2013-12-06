@@ -4,6 +4,8 @@ float isoThetaY = radians(45);
 
 float size = 600.0;
 
+float time = random(100);
+
 float terrainXOffset = random(100);
 float terrainYOffset = random(100);
 float waterOffset = 0.0;
@@ -42,6 +44,8 @@ void setup() {
 }
 
 void draw() {
+    time += 0.005;
+  
     water.initWithPerlin(-terrainXOffset + waterOffset, -terrainYOffset + waterOffset,  0.5);
   
     background(#170124);
@@ -51,7 +55,11 @@ void draw() {
     rotateX(isoThetaX);
     rotateY(isoThetaY);
     
-    lights();
+    // lights
+    ambientLight(32 - cos(time) * 16, 32 - cos(time) * 16, 32 - cos(time) * 16);
+    directionalLight(182, 182, 182, 0, sin(time), cos(time));
+    lightFalloff(1, 0, 0);
+    lightSpecular(0, 0, 0);
     
     // axises
     /*stroke(255, 0, 0);
