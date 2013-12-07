@@ -155,11 +155,9 @@ public void saveImage()
 {
     int i = 0;
     File filename;
-    File dir = new File(".");
     do
     {
-      filename = new File(dir.getParent() + "isoterrain_" + nf(i, 3) + ".png");
-      System.out.println(filename.toString() + (filename.exists() ? "YES" : "NO"));
+      filename = new File("isoterrain_" + nf(i, 3) + ".png");
       i++;
     }
     while(filename.exists());
