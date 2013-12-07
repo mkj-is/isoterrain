@@ -131,7 +131,10 @@ boolean sketchFullScreen() {
  * Maps key presses to various events. Moves the map, exports file and so on.
  */
 void keyPressed() {
-    if (keyCode == UP) {
+    if (keyCode == 83 /* S key */) {
+      saveImage();
+      return;
+    } else if (keyCode == UP) {
       terrainXOffset -= 0.5;
     } else if (keyCode == DOWN) {
       terrainXOffset += 0.5;
@@ -143,4 +146,22 @@ void keyPressed() {
     terrain.initWithPerlin(terrainXOffset, terrainYOffset, 0.3);
     mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
     snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
+}
+
+/**
+ * Exports and saves an image
+ */
+public void saveImage()
+{
+    int i = 0;
+    File filename;
+    File dir = new File(".");
+    do
+    {
+      filename = new File(dir.getParent() + "isoterrain_" + nf(i, 3) + ".png");
+      System.out.println(filename.toString() + (filename.exists() ? "YES" : "NO"));
+      i++;
+    }
+    while(filename.exists());
+    save(filename.toString());
 }
