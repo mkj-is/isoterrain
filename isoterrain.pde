@@ -15,15 +15,15 @@
 /**
  * Angle of rotation around X axis
  */
-float isoThetaX = -atan(sin(radians(45)));
+static final float ISOMETRIC_X_ANGLE = -atan(sin(radians(45)));
 /**
  * Angle of rotation around Y axis
  */
-float isoThetaY = radians(45);
+static final float ISOMETRIC_Y_ANGLE = radians(45);
 /**
  * Size of the map
  */
-float size = 600.0;
+static final float MAP_SIZE = 800.0;
 /**
  * Time seed
  */
@@ -96,17 +96,15 @@ void draw() {
     translate(width / 2, height / 2);
     stroke(255);
     
-    rotateX(isoThetaX);
-    rotateY(isoThetaY);
+    rotateX(ISOMETRIC_X_ANGLE);
+    rotateY(ISOMETRIC_Y_ANGLE);
     
     setupLights();
 
-    float h = 100;
-
-    mountains.drawSurface(size, 300);
-    snow.drawSurface(size, 500);
-    terrain.drawSurface(size, 150);
-    water.drawSurface(size, 20);
+    mountains.drawSurface(MAP_SIZE, 300);
+    snow.drawSurface(MAP_SIZE, 500);
+    terrain.drawSurface(MAP_SIZE, 150);
+    water.drawSurface(MAP_SIZE, 20);
 }
 
 /**
