@@ -1,3 +1,5 @@
+import de.voidplus.leapmotion.*;
+
 /**
  *
  * @file isoterrain.pda
@@ -56,11 +58,17 @@ Terrain mountains;
  * Snowy mountain layer
  */
 Terrain snow;
+/**
+ * Leap motion controller API
+ */
+LeapMotion leap;
 
 /**
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
  */
 void setup() {
+    leap = new LeapMotion(this);
+
     size(displayWidth, displayHeight, P3D);
     smooth();
     ortho();
@@ -109,6 +117,12 @@ void draw() {
     snow.drawSurface(MAP_SIZE, 500);
     terrain.drawSurface(MAP_SIZE, 150);
     water.drawSurface(MAP_SIZE, 20);
+
+    if(leap.countHands() > 0  && leap.getHands().get(0).getPosition().y > 200.0)
+    {
+        PVector vector = leap.getHands().get(0).getPosition();
+        System.out.println(vector.z);
+    }
 }
 
 /**
@@ -146,6 +160,12 @@ void keyPressed() {
     } else if (keyCode == RIGHT) {
       terrainYOffset -= 0.5;
     }
+    regenerateTerrains();
+}
+
+
+void regenerateTerrains()
+{
     terrain.initWithPerlin(terrainXOffset, terrainYOffset, 0.3);
     mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
     snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
