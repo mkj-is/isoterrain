@@ -118,9 +118,13 @@ void draw() {
     terrain.drawSurface(MAP_SIZE, 150);
     water.drawSurface(MAP_SIZE, 20);
 
-    if(leap.countHands() > 0  && leap.getHands().get(0).getPosition().y > 200.0)
+    if(leap.countHands() > 0  && leap.getHands().get(0).getPalmPosition().y > 200.0)
     {
-        PVector vector = leap.getHands().get(0).getPosition();
+        PVector vector = leap.getHands().get(0).getStabilizedPalmPosition();
+        float magnitude = vector.z / 1000.0;
+        if(magnitude < 0)
+            magnitude *= 5.0;
+        moveUp(magnitude);
         System.out.println(vector.z);
     }
 }
@@ -163,6 +167,12 @@ void keyPressed() {
     regenerateTerrains();
 }
 
+void moveUp(float number)
+{
+    terrainXOffset -= number;
+    terrainYOffset += number;
+    regenerateTerrains();
+}
 
 void regenerateTerrains()
 {
