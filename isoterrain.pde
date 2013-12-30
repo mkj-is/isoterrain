@@ -25,6 +25,10 @@ static final float ISOMETRIC_Y_ANGLE = radians(45);
  */
 static final float MAP_SIZE = 800.0;
 /**
+ * Sun strength
+ */
+static final float SUN_STRENGTH = 91;
+/**
  * Time seed
  */
 float time = random(100);
@@ -113,7 +117,8 @@ void draw() {
 void setupLights()
 {
     ambientLight(32 - cos(time) * 16, 32 - cos(time) * 16, 32 - cos(time) * 16);
-    directionalLight(182, 182, 182, 0, sin(time), cos(time));
+    float strength = SUN_STRENGTH + SUN_STRENGTH * sin(time);
+    directionalLight(strength, strength, strength, 0, sin(time), cos(time));
     lightFalloff(1, 0, 0);
     lightSpecular(0, 0, 0);
 }
