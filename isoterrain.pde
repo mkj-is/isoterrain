@@ -118,9 +118,9 @@ void addDefaultLayers()
  * Draws one frame.
  */
 void draw() {
-    
+
     time += 0.01;
-    water.setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
+    layers.get(2).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
     translate(width / 2, height / 2);
