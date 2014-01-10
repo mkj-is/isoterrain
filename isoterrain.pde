@@ -1,4 +1,6 @@
 import de.voidplus.leapmotion.*;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,7 +27,7 @@ static final float ISOMETRIC_Y_ANGLE = radians(45);
 /**
  * Size of the map
  */
-static final float MAP_SIZE = 800.0;
+static final float MAP_SIZE = 600.0;
 /**
  * Sun strength
  */
@@ -43,25 +45,17 @@ float terrainXOffset = random(100);
  */ 
 float terrainYOffset = random(100);
 /**
- Green hilly terrain layer
- */
-Terrain terrain;
-/**
- * Moving water layer
- */
-Terrain water;
-/**
- * Brown mountain layer
- */
-Terrain mountains;
-/**
- * Snowy mountain layer
- */
-Terrain snow;
-/**
  * Leap motion controller API
  */
 LeapMotion leap;
+/**
+ * Currently selected layer of terrain
+ */
+int selectedLayer = 0;
+/**
+ * Layers of the terrain
+ */
+List<Terrain> layers = new ArrayList<Terrain>();
 
 /**
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
@@ -73,28 +67,52 @@ void setup() {
     smooth();
     ortho();
     noFill();
-    
-    terrain = new Terrain(30, 30);
+
+    addDefaultLayers();
+}
+
+/**
+ * Add default layers
+ */
+void addDefaultLayers()
+{
+    Terrain terrain = new Terrain(30, 30);
+    terrain.title = "Hills";
+    //terrain.hOffset = 150.0;
     terrain.initWithPerlin(terrainXOffset, terrainYOffset,  0.3);
     terrain.enableBottomCutoff = true;
     terrain.bottomCutoff = 100.0;
-    mountains = new Terrain(30, 30);
+    terrain.multiply = 150.0;
+    
+    Terrain mountains = new Terrain(30, 30);
+    mountains.title = "Mountains";
     mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
-    mountains.yOffset = -150.0;
+    mountains.hOffset = -150.0;
     mountains.tint = color(173,57,44);
     mountains.enableBottomCutoff = true;
     mountains.bottomCutoff = 160.0;
-    water = new Terrain(30, 30);
+    mountains.multiply = 300.0;
+    
+    Terrain water = new Terrain(30, 30);
+    water.title = "Water";
     water.tint = color(42,186,178, 180);
-    water.yOffset = -25.0;
-    snow = new Terrain(30, 30);
+    water.hOffset = -25.0;
+    water.multiply = 20.0;
+    
+    Terrain snow = new Terrain(30, 30);
+    snow.title = "Snow";
     snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
-    snow.yOffset = -200.0;
+    snow.hOffset = -200.0;
     snow.tint = color(220);
     snow.enableBottomCutoff = true;
     snow.bottomCutoff = 215.0;
-    
-}
+    snow.multiply = 500.0;
+
+    layers.add(terrain);
+    layers.add(mountains);
+    layers.add(water);
+    layers.add(snow);
+}   
 
 /**
  * Draws one frame.
@@ -102,7 +120,7 @@ void setup() {
 void draw() {
     time += 0.01;
   
-    water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5,  0.5);
+    //water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5,  0.5);
   
     background(#170124);
     translate(width / 2, height / 2);
@@ -113,10 +131,9 @@ void draw() {
     
     setupLights();
 
-    mountains.drawSurface(MAP_SIZE, 300);
-    snow.drawSurface(MAP_SIZE, 500);
-    terrain.drawSurface(MAP_SIZE, 150);
-    water.drawSurface(MAP_SIZE, 20);
+    for (Terrain terrain : layers) {
+        terrain.drawSurface(MAP_SIZE);
+    }
 
     if(leap.countHands() > 0  && leap.getHands().get(0).getPalmPosition().y > 200.0)
     {
@@ -176,9 +193,9 @@ void moveUp(float number)
 
 void regenerateTerrains()
 {
-    terrain.initWithPerlin(terrainXOffset, terrainYOffset, 0.3);
-    mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
-    snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
+    //terrain.initWithPerlin(terrainXOffset, terrainYOffset, 0.3);
+    //mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
+    //snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
 }
 
 /**

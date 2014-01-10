@@ -35,9 +35,9 @@ public class Terrain
    */
   public color tint = #ECF67A;
   /**
-   * Y offset of layer
+   * Height offset of layer
    */
-  public float yOffset = -100.0;
+  public float hOffset = -100.0;
   /**
    * Top cut-off of the layer. Higher values will be cropped.
    */
@@ -54,6 +54,26 @@ public class Terrain
    * Enable bottom cut-off
    */
   public boolean enableTopCutoff = false;
+  /**
+   * Description of the layer
+   */
+  public String title = "Layer";
+  /**
+   * The height multiplier
+   */
+  public float multiply = 50.0;
+  /**
+   * Global time
+   */
+  public float time = 0.0;
+  /**
+   * X offset
+   */
+  public float xOffset = 0.0;
+  /**
+   * Y offset
+   */
+  public float yOffset = 0.0;
   
   /**
    * Creates the terrain with default values
@@ -92,6 +112,8 @@ public class Terrain
    */
   public void initWithPerlin(float xoffset, float yoffset, float scale)
   {
+    xOffset = xoffset;
+    yOffset = yoffset;
     for(int x = 0; x < w; x++)
     {
       for(int y = 0; y < w; y++)
@@ -99,6 +121,12 @@ public class Terrain
         data[x][y] = noise(xoffset + x * scale, yoffset + y * scale);
       }
     }
+  }
+
+  public void moveLayer(float x, float y)
+  {
+    xOffset += x;
+    yOffset += y;
   }
   
   /**
@@ -138,23 +166,22 @@ public class Terrain
    * Draws the layer
    *
    * @param size size of the terrain in pixels
-   * @param multiplier of the height of the terrain
    */
-  public void drawSurface(float size, float multiply)
+  public void drawSurface(float size)
   {
     fill(tint);
     noStroke();
     for (int i = 1; i <= getWidth() - 1; i++) {
         for (int j = 1; j <= getHeight() - 1; j++) {
             beginShape();
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j - 1, multiply) + yOffset, -size / 2.0 + (j - 1) * size / getHeight());
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + yOffset, -size / 2.0 + j * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + yOffset, -size / 2.0 + (j - 1) * size / getHeight());
+            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
+            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
+            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
             endShape();
             beginShape();
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + yOffset, -size / 2.0 + j * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + yOffset, -size / 2.0 + (j - 1) * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j, multiply) + yOffset, -size / 2.0 + j * size / getHeight());
+            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
+            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
+            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
             endShape();
       }
     }
