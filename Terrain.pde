@@ -141,6 +141,10 @@ public class Terrain
     {
       return bottomCutoff;
     }
+    if(enableTopCutoff && data[x][y] * multiplier > topCutoff)
+    {
+      return topCutoff;
+    }
     return data[x][y] * multiplier;
   }
   
