@@ -158,17 +158,17 @@ public class Terrain
     fill(tint);
     noStroke();
     for (int i = 1; i <= w - 1; i++) {
-        for (int j = 1; j <= h - 1; j++) {
-            beginShape();
-            vertex(-size / 2.0 + i * size / w, getValue(i, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
-            vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
-            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
-            endShape();
-            beginShape();
-            vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
-            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
-            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j, multiply) + hOffset, -size / 2.0 + j * size / h);
-            endShape();
+      for (int j = 1; j <= h - 1; j++) {
+        beginShape();
+        vertex(-size / 2.0 + i * size / w, getValue(i, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
+        vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
+        vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
+        endShape();
+        beginShape();
+        vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
+        vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
+        vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j, multiply) + hOffset, -size / 2.0 + j * size / h);
+        endShape();
       }
     }
   }
