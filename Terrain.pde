@@ -63,10 +63,6 @@ public class Terrain
    */
   public float multiply = 50.0;
   /**
-   * Global time
-   */
-  public float time = 0.0;
-  /**
    * X offset
    */
   public float xOffset = 0.0;
@@ -113,7 +109,7 @@ public class Terrain
    * @param xoffset X offset of the perlin noise
    * @param yoffset Y offset of the perlin noise
    */
-  public void initWithPerlin(float xoffset, float yoffset)
+  public void setOffset(float xoffset, float yoffset)
   {
     xOffset = xoffset;
     yOffset = yoffset;
@@ -126,10 +122,9 @@ public class Terrain
     }
   }
 
-  public void moveLayer(float x, float y)
+  public void moveOffset(float x, float y)
   {
-    xOffset += x;
-    yOffset += y;
+    setOffset(xOffset + x, yOffset + y);
   }
   
   /**

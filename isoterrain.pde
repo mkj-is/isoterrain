@@ -78,14 +78,14 @@ void addDefaultLayers()
 {
     Terrain terrain = new Terrain(30, 30);
     terrain.title = "Hills";
-    terrain.initWithPerlin(terrainXOffset, terrainYOffset);
+    terrain.setOffset(terrainXOffset, terrainYOffset);
     terrain.enableBottomCutoff = true;
     terrain.bottomCutoff = 100.0;
     terrain.multiply = 150.0;
     
     Terrain mountains = new Terrain(30, 30);
     mountains.title = "Mountains";
-    mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05);
+    mountains.setOffset(terrainXOffset + 0.05, terrainYOffset + 0.05);
     mountains.hOffset = -150.0;
     mountains.tint = color(173,57,44);
     mountains.enableBottomCutoff = true;
@@ -101,7 +101,7 @@ void addDefaultLayers()
     
     Terrain snow = new Terrain(30, 30);
     snow.title = "Snow";
-    snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1);
+    snow.setOffset(terrainXOffset + 0.1, terrainYOffset + 0.1);
     snow.hOffset = -200.0;
     snow.tint = color(220);
     snow.enableBottomCutoff = true;
@@ -118,9 +118,9 @@ void addDefaultLayers()
  * Draws one frame.
  */
 void draw() {
+    
     time += 0.01;
-  
-    //water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
+    water.setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
     translate(width / 2, height / 2);
@@ -141,8 +141,7 @@ void draw() {
         float magnitude = vector.z / 1000.0;
         if(magnitude < 0)
             magnitude *= 5.0;
-        moveUp(magnitude);
-        System.out.println(vector.z);
+        move(magnitude);
     }
 }
 
@@ -181,21 +180,23 @@ void keyPressed() {
     } else if (keyCode == RIGHT) {
       terrainYOffset -= 0.5;
     }
-    regenerateTerrains();
+    moveLayers();
 }
 
-void moveUp(float number)
+void move(float number)
 {
     terrainXOffset -= number;
     terrainYOffset += number;
-    regenerateTerrains();
+    moveLayers();
 }
 
-void regenerateTerrains()
+void moveLayers()
 {
-    //terrain.initWithPerlin(terrainXOffset, terrainYOffset, 0.3);
-    //mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
-    //snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
+    for (Terrain terrain : layers) {
+        terrain.moveOffset(terrainXOffset, terrainYOffset);
+    }
+    terrainYOffset = 0.0;
+    terrainXOffset = 0.0;
 }
 
 /**
