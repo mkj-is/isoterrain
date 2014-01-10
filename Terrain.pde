@@ -74,6 +74,10 @@ public class Terrain
    * Y offset
    */
   public float yOffset = 0.0;
+  /**
+   * Scale between two Perlin values
+   */
+  public float scale = 0.3;
   
   /**
    * Creates the terrain with default values
@@ -108,9 +112,8 @@ public class Terrain
    *
    * @param xoffset X offset of the perlin noise
    * @param yoffset Y offset of the perlin noise
-   * @param scale length between two perlin samples
    */
-  public void initWithPerlin(float xoffset, float yoffset, float scale)
+  public void initWithPerlin(float xoffset, float yoffset)
   {
     xOffset = xoffset;
     yOffset = yoffset;
@@ -147,22 +150,6 @@ public class Terrain
   }
   
   /**
-   * @return the width of the layer in points
-   */
-  public int getWidth()
-  {
-    return w;
-  }
-  
-  /**
-   * @return the height of the layer in points
-   */
-  public int getHeight()
-  {
-    return h;
-  }
-  
-  /**
    * Draws the layer
    *
    * @param size size of the terrain in pixels
@@ -171,17 +158,17 @@ public class Terrain
   {
     fill(tint);
     noStroke();
-    for (int i = 1; i <= getWidth() - 1; i++) {
-        for (int j = 1; j <= getHeight() - 1; j++) {
+    for (int i = 1; i <= w - 1; i++) {
+        for (int j = 1; j <= h - 1; j++) {
             beginShape();
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
+            vertex(-size / 2.0 + i * size / w, getValue(i, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
+            vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
+            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
             endShape();
             beginShape();
-            vertex(-size / 2.0 + i * size / getWidth(), getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / getHeight());
-            vertex(-size / 2.0 + (i - 1) * size / getWidth(), getValue(i - 1, j, multiply) + hOffset, -size / 2.0 + j * size / getHeight());
+            vertex(-size / 2.0 + i * size / w, getValue(i, j, multiply) + hOffset, -size / 2.0 + j * size / h);
+            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j - 1, multiply) + hOffset, -size / 2.0 + (j - 1) * size / h);
+            vertex(-size / 2.0 + (i - 1) * size / w, getValue(i - 1, j, multiply) + hOffset, -size / 2.0 + j * size / h);
             endShape();
       }
     }

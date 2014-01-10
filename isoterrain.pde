@@ -78,15 +78,14 @@ void addDefaultLayers()
 {
     Terrain terrain = new Terrain(30, 30);
     terrain.title = "Hills";
-    //terrain.hOffset = 150.0;
-    terrain.initWithPerlin(terrainXOffset, terrainYOffset,  0.3);
+    terrain.initWithPerlin(terrainXOffset, terrainYOffset);
     terrain.enableBottomCutoff = true;
     terrain.bottomCutoff = 100.0;
     terrain.multiply = 150.0;
     
     Terrain mountains = new Terrain(30, 30);
     mountains.title = "Mountains";
-    mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05, 0.3);
+    mountains.initWithPerlin(terrainXOffset + 0.05, terrainYOffset + 0.05);
     mountains.hOffset = -150.0;
     mountains.tint = color(173,57,44);
     mountains.enableBottomCutoff = true;
@@ -98,10 +97,11 @@ void addDefaultLayers()
     water.tint = color(42,186,178, 180);
     water.hOffset = -25.0;
     water.multiply = 20.0;
+    water.scale = 0.5;
     
     Terrain snow = new Terrain(30, 30);
     snow.title = "Snow";
-    snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1, 0.3);
+    snow.initWithPerlin(terrainXOffset + 0.1, terrainYOffset + 0.1);
     snow.hOffset = -200.0;
     snow.tint = color(220);
     snow.enableBottomCutoff = true;
@@ -120,7 +120,7 @@ void addDefaultLayers()
 void draw() {
     time += 0.01;
   
-    //water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5,  0.5);
+    //water.initWithPerlin(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
     translate(width / 2, height / 2);
