@@ -152,7 +152,8 @@ void setupLights()
 {
     ambientLight(32 - cos(time) * 16, 32 - cos(time) * 16, 32 - cos(time) * 16);
     float strength = SUN_STRENGTH + SUN_STRENGTH * sin(time);
-    directionalLight(strength, strength, strength, 0, sin(time), cos(time));
+    float nightBlue = (cos(time) < 0.5 && sin(time) < 0) ? 100.0 - (0.5 - cos(time) < 0.2 ? (0.5 - cos(time)) * 500.0 : 0.0) : 0.0;
+    directionalLight(strength, strength, strength + nightBlue, 0, sin(time), cos(time));
     lightFalloff(1, 0, 0);
     lightSpecular(0, 0, 0);
 }
