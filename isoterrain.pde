@@ -38,11 +38,11 @@ static final float SUN_STRENGTH = 91;
  */
 float time = random(100);
 /**
- * X map position
+ * X map offset for moving
  */
 float terrainXOffset = random(100);
 /**
- * Y map position
+ * Y map offset for moving
  */ 
 float terrainYOffset = random(100);
 /**
@@ -61,6 +61,14 @@ List<Terrain> layers = new ArrayList<Terrain>();
  * Show interface text
  */
 boolean showInterface = true;
+/**
+ * X map position
+ */
+float positionX = terrainXOffset;
+/**
+ * Y map position
+ */
+float positionY = terrainYOffset;
 
 /**
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
@@ -116,10 +124,10 @@ void addDefaultLayers()
     snow.bottomCutoff = 215.0;
     snow.multiply = 500.0;
 
-    layers.add(snow);
-    layers.add(mountains);
-    layers.add(terrain);
     layers.add(water);
+    layers.add(terrain);
+    layers.add(mountains);
+    layers.add(snow);
 }   
 
 /**
@@ -128,7 +136,7 @@ void addDefaultLayers()
 void draw() {
 
     time += 0.01;
-    layers.get(3).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
+    layers.get(0).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
     translate(width / 2, height / 2);
@@ -179,19 +187,33 @@ boolean sketchFullScreen() {
  * Maps key presses to various events. Moves the map, exports file and so on.
  */
 void keyPressed() {
-    if (keyCode == 83 KeyEvent.VK_S) {
-      saveImage();
-      return;
-    } else if (keyCode == UP) {
-      terrainXOffset -= 0.5;
-    } else if (keyCode == DOWN) {
-      terrainXOffset += 0.5;
-    } else if (keyCode == LEFT) {
-      terrainYOffset += 0.5;
-    } else if (keyCode == RIGHT) {
-      terrainYOffset -= 0.5;
-    } else if (keyCode == KeyEvent.VK_I) {
-      showInterface = !showInterface; 
+    if(keyCode >= 48 && keyCode <= 57)
+    {
+      selectedLayer = keyCode - 48;
+    }
+  
+    switch(keyCode)
+    {
+      case KeyEvent.VK_S:
+        saveImage();
+        return;
+      case UP:
+        terrainXOffset -= 0.5;
+        break;
+      case DOWN:
+        terrainXOffset += 0.5;
+        break;
+      case LEFT:
+        terrainYOffset += 0.5;
+        break;
+      case RIGHT:
+        terrainYOffset -= 0.5;
+        break;
+      case KeyEvent.VK_I:
+        showInterface = !showInterface; 
+        return;
+      default:
+        return;
     }
     moveLayers();
 }
@@ -208,6 +230,8 @@ void moveLayers()
     for (Terrain terrain : layers) {
         terrain.moveOffset(terrainXOffset, terrainYOffset);
     }
+    positionX += terrainXOffset;
+    positionY += terrainYOffset;
     terrainYOffset = 0.0;
     terrainXOffset = 0.0;
 }
@@ -240,11 +264,26 @@ public void drawInterface()
     fill(255);
     
     // terrain layers
-    int i = layers.size();
+    int i = 0;
     for (Terrain terrain : layers) {
-        text(i + " - " + terrain.title, MAP_SIZE / 2.0, 30.0 - i * 30.0, MAP_SIZE / 2.0);
-        i--;
+        if(selectedLayer == i)
+        {
+          fill(255, 0, 0);
+        }
+        else
+        {
+          fill(255);
+        }
+        text(i + " - " + terrain.title, MAP_SIZE / 2.0, -i * 30.0, MAP_SIZE / 2.0);
+        i++;
     }
+    fill(255);
+    
+    // time and position
+    int hours = (6 + int(time / (PI * 2) * 24)) % 24;
+    int minutes = int(((time / (PI * 2.0) * 24.0) - floor(time / (PI * 2) * 24)) / 0.0166667);
+    text("Time = " + hours + ":" + minutes, MAP_SIZE / 2.0, -30.0, 0.0);
+    text("Position = [" + int(positionX * 2.0) + ", " + int(positionY * 2.0) + "]", MAP_SIZE / 2.0, 0.0, 0.0);
     
     noLights();
 }
