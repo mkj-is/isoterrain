@@ -190,6 +190,10 @@ void keyPressed() {
     if(keyCode >= 48 && keyCode <= 57)
     {
       selectedLayer = keyCode - 48;
+      if(selectedLayer < 0 || selectedLayer >= layers.size())
+      {
+        selectedLayer = 0;
+      }
     }
   
     switch(keyCode)
@@ -274,16 +278,26 @@ public void drawInterface()
         {
           fill(255);
         }
-        text(i + " - " + terrain.title, MAP_SIZE / 2.0, -i * 30.0, MAP_SIZE / 2.0);
+        text(i + " - " + terrain.title, MAP_SIZE / 2.0, - 30.0 -i * 30.0, MAP_SIZE / 2.0);
         i++;
     }
     fill(255);
+
+    // selected layer info
+    Terrain layer = layers.get(selectedLayer);
+    fill(255, 0, 0);
+    text("Selected layer = " + layer.title, MAP_SIZE / 2.0, -150.0, 0.0);
+    fill(255);
+    text("Magnitude = " + int(layer.multiply), MAP_SIZE / 2.0, -120.0, 0.0);
+    text("Base height = " + int(layer.hOffset), MAP_SIZE / 2.0, -90.0, 0.0);
+    text("Cutoffs = [" + (layer.enableBottomCutoff ? int(layer.bottomCutoff) : "disabled") + ", " + (layer.enableTopCutoff ? int(layer.topCutoff) : "disabled") + "]", MAP_SIZE / 2.0, -60.0, 0.0);
+    text("Color = [" + int(red(layer.tint)) + ", " + int(green(layer.tint)) + ", " + int(blue(layer.tint)) + ", " + int(alpha(layer.tint)) + "]", MAP_SIZE / 2.0, -30.0, 0.0);
     
     // time and position
     int hours = (6 + int(time / (PI * 2) * 24)) % 24;
     int minutes = int(((time / (PI * 2.0) * 24.0) - floor(time / (PI * 2) * 24)) / 0.0166667);
-    text("Time = " + hours + ":" + minutes, MAP_SIZE / 2.0, -30.0, 0.0);
-    text("Position = [" + int(positionX * 2.0) + ", " + int(positionY * 2.0) + "]", MAP_SIZE / 2.0, 0.0, 0.0);
+    text("Time = " + hours + ":" + minutes, MAP_SIZE / 2.0, -60.0, - MAP_SIZE / 2.0);
+    text("Position = [" + int(positionX * 2.0) + ", " + int(positionY * 2.0) + "]", MAP_SIZE / 2.0, -30.0, - MAP_SIZE / 2.0);
     
     noLights();
 }
