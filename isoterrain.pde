@@ -1,6 +1,7 @@
 import de.voidplus.leapmotion.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -56,6 +57,10 @@ int selectedLayer = 0;
  * Layers of the terrain
  */
 List<Terrain> layers = new ArrayList<Terrain>();
+/**
+ * Show interface text
+ */
+boolean showInterface = true;
 
 /**
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
@@ -67,6 +72,9 @@ void setup() {
     smooth();
     ortho();
     noFill();
+    
+    PFont f = createFont("osifont", 24, true);
+    textFont(f, 24);
 
     addDefaultLayers();
 }
@@ -108,10 +116,10 @@ void addDefaultLayers()
     snow.bottomCutoff = 215.0;
     snow.multiply = 500.0;
 
-    layers.add(terrain);
-    layers.add(mountains);
-    layers.add(water);
     layers.add(snow);
+    layers.add(mountains);
+    layers.add(terrain);
+    layers.add(water);
 }   
 
 /**
@@ -120,7 +128,7 @@ void addDefaultLayers()
 void draw() {
 
     time += 0.01;
-    layers.get(2).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
+    layers.get(3).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
     translate(width / 2, height / 2);
@@ -128,6 +136,8 @@ void draw() {
     
     rotateX(ISOMETRIC_X_ANGLE);
     rotateY(ISOMETRIC_Y_ANGLE);
+    
+    drawInterface();
     
     setupLights();
 
@@ -169,7 +179,7 @@ boolean sketchFullScreen() {
  * Maps key presses to various events. Moves the map, exports file and so on.
  */
 void keyPressed() {
-    if (keyCode == 83 /* S key */) {
+    if (keyCode == 83 KeyEvent.VK_S) {
       saveImage();
       return;
     } else if (keyCode == UP) {
@@ -180,6 +190,8 @@ void keyPressed() {
       terrainYOffset += 0.5;
     } else if (keyCode == RIGHT) {
       terrainYOffset -= 0.5;
+    } else if (keyCode == KeyEvent.VK_I) {
+      showInterface = !showInterface; 
     }
     moveLayers();
 }
@@ -214,4 +226,25 @@ public void saveImage()
     }
     while(filename.exists());
     save(filename.toString());
+}
+
+public void drawInterface()
+{
+    if(!showInterface)
+    {
+      return;
+    }
+  
+    lights();
+  
+    fill(255);
+    
+    // terrain layers
+    int i = layers.size();
+    for (Terrain terrain : layers) {
+        text(i + " - " + terrain.title, MAP_SIZE / 2.0, 30.0 - i * 30.0, MAP_SIZE / 2.0);
+        i--;
+    }
+    
+    noLights();
 }
