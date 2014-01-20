@@ -136,6 +136,9 @@ void addDefaultLayers()
     layers.add(snow);
 }
 
+/**
+ * Initialized the app with settings from config.txt
+ */
 public void readConfig()
 {
     BufferedReader reader = null;
