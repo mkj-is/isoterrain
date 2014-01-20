@@ -54,6 +54,10 @@ LeapMotion leap;
  */
 int selectedLayer = 0;
 /**
+ * Which cutoff is selected?
+ */
+boolean selectedTopCutoff = true;
+/**
  * Layers of the terrain
  */
 List<Terrain> layers = new ArrayList<Terrain>();
@@ -259,6 +263,36 @@ void keyPressed() {
       case KeyEvent.VK_A:
         c = layers.get(selectedLayer).tint;
         layers.get(selectedLayer).tint =  color(red(c), green(c), blue(c), (alpha(c) + 5) < 255 ? alpha(c) + 5 : 0);
+        return;
+      // select desired cutoff
+      case KeyEvent.VK_T:
+        selectedTopCutoff = true;
+        layers.get(selectedLayer).enableTopCutoff = !layers.get(selectedLayer).enableTopCutoff;
+        return;
+      case KeyEvent.VK_Z:
+        selectedTopCutoff = false;
+        layers.get(selectedLayer).enableBottomCutoff = !layers.get(selectedLayer).enableBottomCutoff;
+        return;
+      // move selected cutoff
+      case KeyEvent.VK_O:
+        if(selectedTopCutoff)
+        {
+            layers.get(selectedLayer).topCutoff += 5;
+        }
+        else
+        {
+            layers.get(selectedLayer).bottomCutoff += 5;
+        }
+        return;
+      case KeyEvent.VK_P:
+        if(selectedTopCutoff)
+        {
+            layers.get(selectedLayer).topCutoff -= 5;
+        }
+        else
+        {
+            layers.get(selectedLayer).bottomCutoff -= 5;
+        }
         return;
       default:
         return;
