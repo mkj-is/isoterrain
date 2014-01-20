@@ -195,12 +195,15 @@ void keyPressed() {
         selectedLayer = 0;
       }
     }
-  
+    
+    color c;
     switch(keyCode)
     {
+      // saving images
       case KeyEvent.VK_S:
         saveImage();
         return;
+      // movement on the world
       case UP:
         terrainXOffset -= 0.5;
         break;
@@ -213,8 +216,40 @@ void keyPressed() {
       case RIGHT:
         terrainYOffset -= 0.5;
         break;
+      // toggle text interface
       case KeyEvent.VK_I:
-        showInterface = !showInterface; 
+        showInterface = !showInterface;
+        return;
+      // selected layer base height
+      case KeyEvent.VK_U:
+        layers.get(selectedLayer).hOffset -= 5;
+        return;
+      case KeyEvent.VK_D:
+        layers.get(selectedLayer).hOffset += 5;
+        return;
+      // selected layer magnitude
+      case KeyEvent.VK_M:
+        layers.get(selectedLayer).multiply += 5;
+        return;
+      case KeyEvent.VK_L:
+        layers.get(selectedLayer).multiply -= 5;
+        return;
+      // change color of selected layer
+      case KeyEvent.VK_R:
+        c = layers.get(selectedLayer).tint;
+        layers.get(selectedLayer).tint =  color((red(c) + 5) < 255 ? red(c) + 5 : 0, green(c), blue(c), alpha(c));
+        return;
+      case KeyEvent.VK_G:
+        c = layers.get(selectedLayer).tint;
+        layers.get(selectedLayer).tint =  color(red(c), (green(c) + 5) < 255 ? green(c) + 5 : 0, blue(c), alpha(c));
+        return;
+      case KeyEvent.VK_B:
+        c = layers.get(selectedLayer).tint;
+        layers.get(selectedLayer).tint =  color(red(c), green(c), (blue(c) + 5) < 255 ? blue(c) + 5 : 0, alpha(c));
+        return;
+      case KeyEvent.VK_A:
+        c = layers.get(selectedLayer).tint;
+        layers.get(selectedLayer).tint =  color(red(c), green(c), blue(c), (alpha(c) + 5) < 255 ? alpha(c) + 5 : 0);
         return;
       default:
         return;
