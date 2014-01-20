@@ -203,6 +203,7 @@ void keyPressed() {
       {
         selectedLayer = 0;
       }
+      return;
     }
     
     color c;
