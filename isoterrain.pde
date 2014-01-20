@@ -496,7 +496,7 @@ public void drawHelp()
     text("S: Save image", - MAP_SIZE / 2.0, -240.0, - MAP_SIZE / 2.0);
     text("0-9: Select layer", - MAP_SIZE / 2.0, -210.0, - MAP_SIZE / 2.0);
     text("UD: Move selected layer up/down", - MAP_SIZE / 2.0, -180.0, - MAP_SIZE / 2.0);
-    text("WS: Change magnitude of selected layer", - MAP_SIZE / 2.0, -150.0, - MAP_SIZE / 2.0);
+    text("ML: More/less magnitude for selected layer", - MAP_SIZE / 2.0, -150.0, - MAP_SIZE / 2.0);
     text("RGBA: Change color of selected layer", - MAP_SIZE / 2.0, -120.0, - MAP_SIZE / 2.0);
     text("TZ: Toggle top/ground cutoff of selected layer", - MAP_SIZE / 2.0, -90.0, - MAP_SIZE / 2.0);
     text("OP: Move cutoff up/down", - MAP_SIZE / 2.0, -60.0, - MAP_SIZE / 2.0);
