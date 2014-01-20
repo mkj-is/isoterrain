@@ -1,4 +1,3 @@
-import de.voidplus.leapmotion.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
@@ -46,10 +45,6 @@ float terrainXOffset = random(100);
  */ 
 float terrainYOffset = random(100);
 /**
- * Leap motion controller API
- */
-LeapMotion leap;
-/**
  * Currently selected layer of terrain
  */
 int selectedLayer = 0;
@@ -82,7 +77,6 @@ float positionY = terrainYOffset;
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
  */
 void setup() {
-    leap = new LeapMotion(this);
 
     size(displayWidth, displayHeight, P3D);
     smooth();
@@ -160,15 +154,6 @@ void draw() {
 
     for (Terrain terrain : layers) {
         terrain.drawSurface(MAP_SIZE);
-    }
-
-    if(leap.countHands() > 0  && leap.getHands().get(0).getPalmPosition().y > 200.0)
-    {
-        PVector vector = leap.getHands().get(0).getStabilizedPalmPosition();
-        float magnitude = vector.z / 1000.0;
-        if(magnitude < 0)
-            magnitude *= 5.0;
-        move(magnitude);
     }
 }
 
