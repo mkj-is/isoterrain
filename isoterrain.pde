@@ -1,13 +1,15 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
  *
  * @file isoterrain.pda
  *
  * @author Matěj Kašpar Jirásek <matej.jirasek@gmail.com>
- * @date 2013-12-06
+ * @date 2014-01-20
  *
  * @link http://mkj.is
  * @link https://is.muni.cz/predmet/fi/podzim2013/PV097?lang=en
@@ -198,6 +200,10 @@ void keyPressed() {
       case KeyEvent.VK_S:
         saveImage();
         return;
+      // saving configuration
+      case KeyEvent.VK_E:
+        saveConfiguration();
+        return;
       // movement on the world
       case UP:
         terrainXOffset -= 0.5;
@@ -286,13 +292,9 @@ void keyPressed() {
     moveLayers();
 }
 
-void move(float number)
-{
-    terrainXOffset -= number;
-    terrainYOffset += number;
-    moveLayers();
-}
-
+/**
+ * Moves all layers to new positions.
+ */
 void moveLayers()
 {
     for (Terrain terrain : layers) {
@@ -305,7 +307,7 @@ void moveLayers()
 }
 
 /**
- * Exports and saves an image
+ * Exports and saves an image (isoterrain_xxx.png).
  */
 public void saveImage()
 {
@@ -320,6 +322,38 @@ public void saveImage()
     save(filename.toString());
 }
 
+/**
+ * Saves project configuration to text file (isoterrain_xxx.txt)
+ */
+public void saveConfiguration()
+{
+    int i = 0;
+    File filename;
+    do
+    {
+      filename = new File("isoterrain_" + nf(i, 3) + ".txt");
+      i++;
+    }
+    while(filename.exists());
+    PrintWriter file;
+    try {
+      file = new PrintWriter(new FileWriter(filename.toString()));
+    }
+    catch (Exception e) {
+        println(e.getMessage());
+        return;
+    }
+    file.println("Time=" + time);
+    file.println("Position=" + positionX + "," + positionY);
+    for (Terrain terrain : layers) {
+        file.println(terrain);
+    }
+    file.close();
+}
+
+/**
+ * Draws text interface.
+ */
 public void drawInterface()
 {
     if(!showInterface)
@@ -328,7 +362,6 @@ public void drawInterface()
     }
   
     lights();
-  
     fill(255);
     
     // terrain layers
@@ -366,6 +399,9 @@ public void drawInterface()
     noLights();
 }
 
+/**
+ * Draws help text.
+ */
 public void drawHelp()
 {
     if(!showHelp)
@@ -388,7 +424,6 @@ public void drawHelp()
     text("RGBA: Change color of selected layer", - MAP_SIZE / 2.0, -120.0, - MAP_SIZE / 2.0);
     text("TZ: Toggle top/ground cutoff of selected layer", - MAP_SIZE / 2.0, -90.0, - MAP_SIZE / 2.0);
     text("OP: Move cutoff up/down", - MAP_SIZE / 2.0, -60.0, - MAP_SIZE / 2.0);
-
 
     noLights();
 }

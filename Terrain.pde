@@ -172,4 +172,14 @@ public class Terrain
       }
     }
   }
+  
+  /**
+   * Overrrides standard method, used for exporting configuration.
+   */
+  @Override public String toString()
+  {
+    return "---\n" + title + "\nOffset=" + xOffset + "," + yOffset + "\nMagnitude=" + multiply + "\nHeight=" + hOffset + "\nColor=" + int(red(tint)) + "," + int(green(tint)) + "," + int(blue(tint)) + "," + int(alpha(tint)) + ",";
+  }
+
 }
+
