@@ -60,7 +60,11 @@ List<Terrain> layers = new ArrayList<Terrain>();
 /**
  * Show interface text
  */
-boolean showInterface = true;
+boolean showInterface = false;
+/**
+ * Show help text
+ */
+boolean showHelp = true;
 /**
  * X map position
  */
@@ -146,6 +150,7 @@ void draw() {
     rotateY(ISOMETRIC_Y_ANGLE);
     
     drawInterface();
+    drawHelp();
     
     setupLights();
 
@@ -219,6 +224,10 @@ void keyPressed() {
       // toggle text interface
       case KeyEvent.VK_I:
         showInterface = !showInterface;
+        return;
+      // toggle help
+      case KeyEvent.VK_H:
+        showHelp = !showHelp;
         return;
       // selected layer base height
       case KeyEvent.VK_U:
@@ -334,5 +343,32 @@ public void drawInterface()
     text("Time = " + nf(hours, 2) + ":" + nf(minutes, 2), MAP_SIZE / 2.0, -60.0, - MAP_SIZE / 2.0);
     text("Position = [" + int(positionX * 2.0) + ", " + int(positionY * 2.0) + "]", MAP_SIZE / 2.0, -30.0, - MAP_SIZE / 2.0);
     
+    noLights();
+}
+
+public void drawHelp()
+{
+    if(!showHelp)
+    {
+        return;
+    }
+
+    lights();
+    fill(255);
+
+    text("Isoterrain 1.0", - MAP_SIZE / 2.0, -390.0, - MAP_SIZE / 2.0);
+    text("--------------", - MAP_SIZE / 2.0, -360.0, - MAP_SIZE / 2.0);
+    text("H: Toggle help", - MAP_SIZE / 2.0, -330.0, - MAP_SIZE / 2.0);
+    text("I: Toggle interface", - MAP_SIZE / 2.0, -300.0, - MAP_SIZE / 2.0);
+    text("Arrows: Move", - MAP_SIZE / 2.0, -270.0, - MAP_SIZE / 2.0);
+    text("S: Save image", - MAP_SIZE / 2.0, -240.0, - MAP_SIZE / 2.0);
+    text("0-9: Select layer", - MAP_SIZE / 2.0, -210.0, - MAP_SIZE / 2.0);
+    text("UD: Move selected layer up/down", - MAP_SIZE / 2.0, -180.0, - MAP_SIZE / 2.0);
+    text("WS: Change magnitude of selected layer", - MAP_SIZE / 2.0, -150.0, - MAP_SIZE / 2.0);
+    text("RGBA: Change color of selected layer", - MAP_SIZE / 2.0, -120.0, - MAP_SIZE / 2.0);
+    text("TZ: Toggle top/ground cutoff of selected layer", - MAP_SIZE / 2.0, -90.0, - MAP_SIZE / 2.0);
+    text("OP: Move cutoff up/down", - MAP_SIZE / 2.0, -60.0, - MAP_SIZE / 2.0);
+
+
     noLights();
 }
