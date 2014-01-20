@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 /**
  *
@@ -88,7 +90,7 @@ void setup() {
     PFont f = createFont("osifont", 24, true);
     textFont(f, 24);
 
-    addDefaultLayers();
+    readConfig();
 }
 
 /**
@@ -132,7 +134,78 @@ void addDefaultLayers()
     layers.add(terrain);
     layers.add(mountains);
     layers.add(snow);
-}   
+}
+
+public void readConfig()
+{
+    BufferedReader reader = null;
+    try {
+        reader = new BufferedReader(new FileReader("config.txt"));
+        
+        // parse time
+        String line = reader.readLine();
+        String[] tokens = line.split("=");
+        time = Float.parseFloat(tokens[1]);
+        
+        // parse position
+        line = reader.readLine();
+        tokens = line.split("=");
+        tokens = tokens[1].split(",");
+        positionX = Float.parseFloat(tokens[0]);
+        positionY = Float.parseFloat(tokens[1]);
+        
+        // layers
+        while(reader.readLine().equals("---"))
+        {
+          Terrain layer = new Terrain(30, 30);
+          // title
+          layer.title = reader.readLine();
+          // offset
+          line = reader.readLine();
+          tokens = line.split("=");
+          tokens = tokens[1].split(",");
+          layer.setOffset(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]));
+          // magnitude
+          line = reader.readLine();
+          tokens = line.split("=");
+          layer.multiply = Float.parseFloat(tokens[1]);
+          // height
+          line = reader.readLine();
+          tokens = line.split("=");
+          layer.hOffset = Float.parseFloat(tokens[1]);
+          // color
+          line = reader.readLine();
+          tokens = line.split("=");
+          tokens = tokens[1].split(",");
+          layer.tint = color(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+          // scale
+          line = reader.readLine();
+          tokens = line.split("=");
+          layer.scale = Float.parseFloat(tokens[1]);
+          // enable cutoffs
+          line = reader.readLine();
+          tokens = line.split("=");
+          tokens = tokens[1].split(",");
+          layer.enableBottomCutoff = Boolean.parseBoolean(tokens[0]);
+          layer.enableTopCutoff = Boolean.parseBoolean(tokens[1]);
+          // cutoff values
+          line = reader.readLine();
+          tokens = line.split("=");
+          tokens = tokens[1].split(",");
+          layer.bottomCutoff = Float.parseFloat(tokens[0]);
+          layer.topCutoff = Float.parseFloat(tokens[1]);
+          
+          layers.add(layer);
+        }
+        reader.close();
+    } catch(Exception e) {
+        
+    }
+    if(layers.size() == 0)
+    {
+      addDefaultLayers();
+    }
+}
 
 /**
  * Draws one frame.

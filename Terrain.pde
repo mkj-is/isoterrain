@@ -178,7 +178,15 @@ public class Terrain
    */
   @Override public String toString()
   {
-    return "---\n" + title + "\nOffset=" + xOffset + "," + yOffset + "\nMagnitude=" + multiply + "\nHeight=" + hOffset + "\nColor=" + int(red(tint)) + "," + int(green(tint)) + "," + int(blue(tint)) + "," + int(alpha(tint)) + ",";
+    return "---\n" + title
+      + "\nOffset=" + xOffset + "," + yOffset
+      + "\nMagnitude=" + multiply
+      + "\nHeight=" + hOffset
+      + "\nColor=" + int(red(tint)) + "," + int(green(tint)) + "," + int(blue(tint)) + "," + int(alpha(tint))
+      + "\nScale=" + scale
+      + "\nCutoffs=" + enableBottomCutoff + "," + enableTopCutoff
+      + "\nCut values=" + bottomCutoff + "," + topCutoff
+      ;
   }
 
 }
