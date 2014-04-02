@@ -76,6 +76,10 @@ float positionX = terrainXOffset;
  * Y map position
  */
 float positionY = terrainYOffset;
+/**
+ * Time is stopped
+ */
+boolean timeStopped = false;
 
 /**
  * Setup processing method. Sets up terrain layers and fullscreen window on application start.
@@ -215,7 +219,10 @@ public void readConfig()
  */
 void draw() {
 
-    time += 0.01;
+    if(!timeStopped)
+    {
+      time += 0.01;
+    }
     layers.get(0).setOffset(-terrainXOffset + time * 5, -terrainYOffset + time * 5);
   
     background(#170124);
@@ -296,6 +303,10 @@ void keyPressed() {
       // toggle text interface
       case KeyEvent.VK_I:
         showInterface = !showInterface;
+        return;
+      // Stop time
+      case KeyEvent.VK_X:
+        timeStopped = !timeStopped;
         return;
       // toggle help
       case KeyEvent.VK_H:
