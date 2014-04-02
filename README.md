@@ -22,41 +22,15 @@ Application can be controlled using keyboard.
 - `T`: Turn on/off and selects top cutoff of selected layer
 - `Z`: Turn on/off and selects bottom cutoff of selected layer
 - `O/P`: Move selected cutoff up/down
+- `X`: Stop time
 
+## Configuration
 
-# Uživatelská příručka pro aplikaci Isoterrain
-*Matěj Kašpar Jirásek, v2014-01-20*
+Configuration is saved after pressing `E` key. If you want to load your own configuration, put the file with configuration into the app folder and rename it to `config.txt`. If it does not work, add the file to home directory of currently logged in user. If is this configuration file valid then the layers from this file will be loaded instead of the default layers.
 
-Projekt prezentuje výřez z náhodně generované, nekonečné, živoucí krajiny. Tato krajina je zobrazená v málo polygonech, aby dávala najevo svoji virtuální podstatu. Na generování krajiny využívám především Perlinův šum. Uživatel má možnost živoucím terénem se pohybovat a za běhu měnit jeho parametry. Mým cílem je nejen export pěkných vizuálních výtvorů, ale i zážitek ponoření uživatele do nekonečných náhodných krajin. Uživatelské rozhraní je velmi minimální (pouze textové), aby co nejméně narušovalo výstup. Projekt je inspirován dílem vizuálního umělce Timothy J. Reynoldse.
+### Example configuration
 
-## Požadavky pro rozběhnutí aplikace
-
-Projekt byl vytvořen v jazyce Processing, verze 2.1. Pro rozběhnutí projektu je potřeba mít nainstalované prostředí Java verze 7.
-
-## Ovládání aplikace
-
-Celá aplikace se ovládá pomocí klávesnice. Následuje popis možností
-
-- `Šipky`: Pohyb po mapě
-- `I`: Zobrazení infografiky o mapě
-- `H`: Zobrazení nápovědy
-- `S`: Uložení obrázku ve formátu PNG
-- `E`: Export současných parametrů do .txt
-- `0-9`: Výběr aktuální vrstvy
-- `M/L`: Větší/menší rozsah hodnot aktuálně vybrané vrstvy
-- `U/D`: Posouvání aktuálně vybrané vrstvy nahoru/dolů
-- `RGBA`: Změna složek barvy aktuálně vybrané vrstvy
-- `T`: Zapne/Vypne a vybere vrchní ořez aktuálně vybrané vrstvy
-- `Z`: Zapne/Vypne a vybere spodní ořez aktuálně vybrané vrstvy
-- `O/P`: Zvětší/Zmenší vybraný ořez aktuálně vybrané vrstvy
-
-## Konfigurace
-
-Konfigurace je uložena po stisknutí tlačítka `E`. Pokud chcete načíst vlastní konfiguraci, umístěte do složky s aplikací soubor `config.txt`. Když nebude toto umístění fungovat, přidejte soubor do domovského adresáře právě přihlášeného uživatele. Pokud bude tento soubor validní, tak se místo defaultních vrstev načtou vrstvy z tohoto souboru.
-
-### Vzorová konfigurace
-
-Takto vypadá konfigurace vygenerovaná bez jakýchkoli změn parametrů.
+This is configuration without any changes to layer parameters.
 
 	Time=56.632595
 	Position=67.28607,84.86561
@@ -97,16 +71,16 @@ Takto vypadá konfigurace vygenerovaná bez jakýchkoli změn parametrů.
 	Cutoffs=true,false
 	Cut values=215.0,0.0
 
-## Tvorba/Úprava konfiguračního souboru
+## Creating/Editing the configuration file
 
-První dva řádky nám poskytují globální proměnné. Na prvním řádku je uložen interní globální čas aplikace, ovlivňující cyklus dní a nocí. Na druhém řádků je aktuální pozice na mapě (offset v perlinově funkci). Řádky v konfiguraci není možno prohazovat. Hodnoty jsou desetinná čísla s tečkou.
+First two lines contain global variables. On the first line there is internal time of the app. On the second line is actual position on the map (offset in Perlin noise). The lines cannot be swapped. Values are decimal number using period.
 
 	Time=56.632595
 	Position=67.28607,84.86561
 
-### Vrstvy terénu v konfiguračním souboru
+### Layers of terrain in the configuration file
 
-Po globálních proměnných následují vrstvy, kterých může být nula až deset. Řádky u vrstvy opět není možno prohazovat. Formát takové vrstvy vypadá následovně (tři pomlčky pro oddělení vrstev musí být obsaženy):
+Global variables are followed by layers. Number of layers varies between 0 and 10. Lines in layer configuration cannot be swapped too. Format of one layer looks like this example (three hyphens divide the layers):
 
 	---
 	Hills
@@ -118,52 +92,52 @@ Po globálních proměnných následují vrstvy, kterých může být nula až d
 	Cutoffs=true,false
 	Cut values=100.0,0.0
 
-Pro lepší pochopopení zde s popisem (v reálném konfiguračním souboru by nemělo být nic navíc):
+Here is the detailed definition of all the values that define the layer:
 
 	---
 	Hills
 
-Popisek vrstvy.
+Layer description.
 
 	Offset=67.28607,84.86561
 
-Pozice na mapě.
+Position on the map.
 
 	Magnitude=150.0
 
-Násobek hodnoty Perlinovy funkce.
+Multiplier of the Perlin noise value.
 
 	Height=-100.0
 
-Základní výška vrstvy.
+Base height of the layer.
 
 	Color=236,246,122,255
 
-Barva rozložená do RGBA prvků (0-255).
+Color in RGBA (0-255).
 
 	Scale=0.3
 
-Vzdálenost mezi dvěma vzorky z Perlinovy funkce.
+Distance between two samples from Perlin noise.
 
 	Cutoffs=true,false
 
-Hodnoty říkající zda je zapnutý spodní a horní ořez.
+Values enabling top and bottom cut off.
 
 	Cut values=100.0,0.0
 
-Hodnoty spodního a horního ořezu.
+Values of top and bottom cutoff.
 
-Vrstva 0 je vždy vrstvou pohyblivou.
+Layer 0 is always moving.
 
-## Ukázky
+## Examples
 
-### Aplikace se zapnutou nápovědou a infografikou
+### Application with enabled interface
 
-![Aplikace se zapnutou nápovědou a infografikou](example_ui.png)
+![Application with enabled interface](https://dl.dropboxusercontent.com/u/216967/isoterrain/example_ui.png)
 
 ### Default configuration
 
-![Classic configuration](classic.png)
+![Classic configuration](https://dl.dropboxusercontent.com/u/216967/isoterrain/classic.png)
 
 	Time=58.34304
 	Position=197.38326,-2.632732
@@ -206,7 +180,7 @@ Vrstva 0 je vždy vrstvou pohyblivou.
 
 ### Volcanoes
 
-![Sopečnatý terén](volcanoes.png)
+![Volcanoes](https://dl.dropboxusercontent.com/u/216967/isoterrain/volcanoes.png)
 
 	Time=215.65913
 	Position=103.75135,160.70026
@@ -249,7 +223,7 @@ Vrstva 0 je vždy vrstvou pohyblivou.
 
 ### Shallow
 
-![Shallow](shallow.png)
+![Shallow](https://dl.dropboxusercontent.com/u/216967/isoterrain/shallow.png)
 
 	Time=191.4628
 	Position=192.22195,78.166695
@@ -292,7 +266,7 @@ Vrstva 0 je vždy vrstvou pohyblivou.
 
 ### Desert
 
-![Desert](desert.png)
+![Desert](https://dl.dropboxusercontent.com/u/216967/isoterrain/desert.png)
 
 	Time=285.22583
 	Position=192.22195,78.166695
@@ -359,11 +333,6 @@ Vrstva 0 je vždy vrstvou pohyblivou.
 	Scale=0.5
 	Cutoffs=false,false
 	Cut values=0.0,0.0
-
-
-## Example
-
-![Isoterrain example](https://31.media.tumblr.com/dec20df6111190b9eead953c411e2988/tumblr_mxeu4zOMoR1s14nrdo2_r1_500.png)
 
 ## Links
 
